@@ -1,6 +1,6 @@
 # KAVACH-JEPA
 
-A JEPA-style world model for network-intrusion forecasting, with a mechanistic-interpretability toolkit. Code only: no UI, no API, no ledger.
+A JEPA-style world model for network-intrusion forecasting.
 
 Network telemetry (CIC-IDS-2017 flow CSVs or PCAPs) is cut into windows, each window becomes a small graph, and **NetJEPA** (HGT graph encoder + GRU + probabilistic latent predictor, trained with VICReg and a Gaussian NLL) learns to forecast the next state. Two small heads read the embedding: P(infiltration) and a six-class MITRE ATT&CK stage.
 
