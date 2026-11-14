@@ -1,0 +1,49 @@
+data:
+  # CIC-IDS-2017 "MachineLearningCVE" flow CSVs (Monday-Friday, all attack
+  # days). See src/ingestion/flow_parser.py for the schema caveats (no
+  # src/dst IP, synthesized timestamps).
+  flow_csv_dir: "data/raw/CSV/MachineLearningCVE"
+  # Raw PCAPNG captures — currently Monday (benign baseline) and Wednesday
+  # (DoS/DDoS-heavy). Too large for git; linked from the README, expected
+  # to land here manually.
+  pcap_dir: "data/raw/PCAP"
+  processed_dir: "data/processed"
+
+windowing:
+  window_seconds: 5
+  stride_seconds: 5
+  # CSV (flow) captures are windowed by row count in the live pipeline, the
+  # same way src/training/build_windows_cache.py builds the training set, so
+  # live windows match the model's training distribution. null = time windows.
+  csv_rows_per_window: 100
+
+features:
+  flow_level:
+    - src_ip
+    - dst_ip
+    - src_port
+    - dst_port
+    - protocol
+    - tcp_flags
+    - bytes
+    - packets
+    - duration
+    - iat_mean
+    - iat_var
+    - iat_max
+  packet_level:
+    - ttl_variance
+    - tcp_window_size
+    - fragment_flag
+    - payload_size
+    - retransmit_count
+
+model:
+  embedding_dim: 128
+  predictor_hidden_dim: 256
+  ema_momentum: 0.996
+  vicreg:
+    sim_coeff: 25.0
+    std_coeff: 25.0
+    cov_coeff: 1.0
+  rollout_steps: 5

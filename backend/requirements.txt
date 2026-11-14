@@ -1,0 +1,22 @@
+# data
+pandas
+numpy
+pyyaml
+
+# ingestion (PCAP fallback parser)
+scapy
+
+# modeling
+torch
+torch-geometric
+
+# interpretability
+nnsight
+captum
+shap
+scikit-learn
+matplotlib
+plotly
+
+# tests
+pytest
